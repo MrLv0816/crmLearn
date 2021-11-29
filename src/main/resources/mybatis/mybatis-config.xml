@@ -9,14 +9,14 @@
     </settings>
     <!--配置别名-->
     <typeAliases>
-        <package name="com.bjpowernode.crm.settings.domain"/>
-        <package name="com.bjpowernode.crm.workbench.domain"/>
+        <package name="cn.konfan.crm.settings.domain"/>
+        <package name="cn.konfan.crm.workbench.domain"/>
     </typeAliases>
 
     <!--配置sql映射文件-->
     <mappers>
-        <package name="com.bjpowernode.crm.settings.dao"/>
-        <package name="com.bjpowernode.crm.workbench.dao"/>
+        <package name="cn.konfan.crm.settings.dao"/>
+        <package name="cn.konfan.crm.workbench.dao"/>
     </mappers>
 
 
