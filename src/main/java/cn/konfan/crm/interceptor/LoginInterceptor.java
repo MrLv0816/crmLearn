@@ -1,6 +1,8 @@
 package cn.konfan.crm.interceptor;
 
-import org.omg.PortableInterceptor.Interceptor;
+import cn.konfan.crm.exception.InterceptorException;
+import cn.konfan.crm.exception.LoginException;
+import cn.konfan.crm.settings.domain.User;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,14 +17,20 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginInterceptor implements HandlerInterceptor {
     /**
      * 控制器执行前的拦截操作
-     * @param httpServletRequest
-     * @param httpServletResponse
+     * @param request
+     * @param response
      * @param o
      * @return
      * @throws Exception
      */
     @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
+
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null){
+            throw new InterceptorException();
+        }
+
         return true;
     }
 

@@ -20,7 +20,7 @@
     <!--<context:component-scan base-package="cn.konfan.crm"/>-->
     <!--声明视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp" />
+        <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
 
@@ -31,6 +31,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/settings/user/login.do"/>
+            <mvc:exclude-mapping path="/settings/user/toLogin.do"/>
             <bean class="cn.konfan.crm.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
