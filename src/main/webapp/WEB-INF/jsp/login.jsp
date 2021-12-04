@@ -22,13 +22,20 @@
 
                 var loginAct = $("#loginAct").val();
                 var loginPwd = $("#loginPwd").val();
+                var autoLogin = 0;
+                if ($("#aoutLogin").prop('checked')) {
+                    autoLogin = 1;
+                }else {
+                    autoLogin = 0;
+                }
 
                 if (loginAct === "" || loginPwd === "") {
                     $("#msg").html("用户名或密码不能为空");
                     return;
                 }
                 $("#msg").html("");
-                Ajaxlogin(loginAct,loginPwd);
+
+                Ajaxlogin(loginAct,loginPwd,autoLogin);
 
 
 
@@ -51,7 +58,7 @@
         <div class="page-header">
             <h1>登录</h1>
         </div>
-        <form action="workbench/index.html" class="form-horizontal" role="form">
+        <form action="workbench/index.jsp" class="form-horizontal" role="form">
             <div class="form-group form-group-lg">
                 <div style="width: 350px;">
                     <input class="form-control" type="text" id="loginAct" placeholder="用户名">
@@ -61,7 +68,7 @@
                 </div>
                 <div class="checkbox" style="position: relative;top: 30px; left: 10px;">
                     <label>
-                        <input type="checkbox"> 十天内免登录
+                        <input type="checkbox" id="aoutLogin"> 十天内免登录
                     </label>
                     &nbsp;&nbsp;
                     <span id="msg" style="color: red"></span>

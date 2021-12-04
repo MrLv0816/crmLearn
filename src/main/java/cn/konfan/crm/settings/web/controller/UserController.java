@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -26,14 +28,17 @@ public class UserController {
     public UserService userService;
 
     @RequestMapping(value = "/toLogin.do")
-    public String toLogin(){
+    public String toLogin(HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") != null) {
+            return "redirect:/workbench/toIndex.do";
+        }
         return "login";
     }
 
 
     @RequestMapping(value = "/login.do")
     @ResponseBody
-    public Result login(@RequestParam("loginAct") String loginAct, @RequestParam("loginPwd") String loginPwd, HttpServletRequest request) {
+    public Result login(@RequestParam("loginAct") String loginAct, @RequestParam("loginPwd") String loginPwd, @RequestParam(defaultValue = "0") Integer autoLogin, HttpServletRequest request, HttpServletResponse response) {
 
         String md5Pwd = MD5Util.getMD5(loginPwd);
         String ip = request.getRemoteAddr();
@@ -47,9 +52,19 @@ public class UserController {
         }
 
         request.getSession().setAttribute("user", user);
+        System.out.println(autoLogin);
+        if (autoLogin == 1) {
+            Cookie act = new Cookie("act", loginAct);
+            Cookie pwd = new Cookie("pwd", md5Pwd);
+            act.setMaxAge(60 * 60 * 24 * 10);
+            pwd.setMaxAge(60 * 60 * 24 * 10);
+            act.setPath("/");
+            pwd.setPath("/");
+            response.addCookie(act);
+            response.addCookie(pwd);
+        }
 
-
-        resultMap.put("data",null);
+        resultMap.put("data", null);
         return Result.ok(resultMap);
 
     }
