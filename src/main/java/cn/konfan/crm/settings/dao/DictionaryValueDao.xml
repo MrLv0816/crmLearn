@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.konfan.crm.settings.dao.DictionaryValueDao">
 
-    <select id="findAllDictionaryVaule" resultType="cn.konfan.crm.settings.domain.DictionaryValue">
+    <select id="findAll" resultType="cn.konfan.crm.settings.domain.DictionaryValue">
         select *
         from tbl_dic_value
     </select>

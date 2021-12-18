@@ -20,7 +20,6 @@ public class Result extends HashMap {
         Result result = new Result();
         result.put("code",code);
         result.put("msg","操作成功");
-        result.put("data",null);
         return result;
     }
     public static Result ok(Integer code,String msg) {

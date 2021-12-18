@@ -1,5 +1,6 @@
 package cn.konfan.crm.settings.service.impl;
 
+import cn.konfan.crm.entity.Result;
 import cn.konfan.crm.settings.dao.UserDao;
 import cn.konfan.crm.settings.domain.User;
 import cn.konfan.crm.settings.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,25 +23,35 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Override
-    public User findUserByLoginActAndLoginPwd(String loginAct, String loginPwd) {
-        User user = userDao.findUserByLoginActAndLoginPwd(loginAct, loginPwd);
 
-        return user;
+    /**
+     * 用户登录操作
+     * @param loginAct  用户名
+     * @param loginPwd  密码
+     * @return  用户对象
+     */
+    @Override
+    @Deprecated
+    public User findUserByLoginActAndLoginPwd(String loginAct, String loginPwd) {
+        return userDao.findUserByLoginActAndLoginPwd(loginAct, loginPwd);
     }
 
+    /**
+     * 用户登录
+     * @param loginAct  用户名
+     * @param loginPwd  名密码
+     * @param ip    访问ip
+     * @return
+     */
     @Override
-    public Map<String, Object> findMapByLoginActAndLoginPwd(String loginAct, String loginPwd, String ip) {
+    public Result findMapByLoginActAndLoginPwd(String loginAct, String loginPwd, String ip) {
 
-        Map<String, Object> resultMap = new HashMap<>();
+
         User user = userDao.findUserByLoginActAndLoginPwd(loginAct, loginPwd);
 
         //验证用户名密码
         if (user == null) {
-            resultMap.put("code", 1);
-            resultMap.put("msg", "用户名或密码错误");
-            resultMap.put("data", null);
-            return resultMap;
+            return Result.ok(1,"用户名或密码错误");
         }
 
 
@@ -50,35 +62,44 @@ public class UserServiceImpl implements UserService {
             String now = new SimpleDateFormat("yyy-MM-dd hh:mm:ss").format(new Date());
             if (expireTime.compareTo(now) < 0) {
                 //小于 0 代表账户过期
-                resultMap.put("code", 2);
-                resultMap.put("msg", "账户已过期,请联系管理员");
-                resultMap.put("data", null);
-                return resultMap;
+                return Result.ok(2,"账户已过期");
             }
         }
 
         //验证账户是否为 锁定 状态
         if (user.getLockState().equals("1")) {
-            resultMap.put("code", 3);
-            resultMap.put("msg", "账户已锁定,请联系管理员");
-            resultMap.put("data", null);
-            return resultMap;
+            return Result.ok(3,"账户已锁定");
         }
 
         //验证ip是否受限
         String allowlps = user.getAllowIps();
         if (allowlps != null) {
             if (!allowlps.contains(ip)) {
-                resultMap.put("code", 4);
-                resultMap.put("msg", "Ip地址受限,请联系管理员");
-                resultMap.put("data", null);
-                return resultMap;
+                return Result.ok(4,"Ip地址受限");
             }
         }
 
-        resultMap.put("code", 0);
-        resultMap.put("msg", "登陆成功");
-        resultMap.put("data", user);
-        return resultMap;
+        return Result.ok(0,"",user);
+    }
+
+
+    /**
+     * 查询全部用户数据
+     * @return  用户对象 <List>
+     */
+    @Override
+    public List<User> findAll() {
+        return userDao.findAll();
+    }
+
+
+    /**
+     * 根据 id 查询用户名
+     * @param id    用户唯一标识
+     * @return  用户昵称
+     */
+    @Override
+    public String findNameById(String id) {
+        return userDao.findNameById(id);
     }
 }

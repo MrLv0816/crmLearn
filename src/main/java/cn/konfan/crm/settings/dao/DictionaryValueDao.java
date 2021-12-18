@@ -10,5 +10,10 @@ import java.util.List;
  * @apiNote
  */
 public interface DictionaryValueDao {
-    public List<DictionaryValue> findAllDictionaryVaule();
+
+    /**
+     * 查询全部
+     * @return  DictionaryValueList
+     */
+    public List<DictionaryValue> findAll();
 }

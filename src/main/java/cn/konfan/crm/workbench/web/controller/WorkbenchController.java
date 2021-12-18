@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/workbench")
-public class WorkbenchIndexController {
+public class WorkbenchController {
 
 
 
@@ -22,5 +22,13 @@ public class WorkbenchIndexController {
     public String toMainIndex() {
         return "workbench/main/index";
     }
+
+
+    @RequestMapping("/activity/toIndex.do")
+    public String toActivityIndex() {
+        return "workbench/activity/index";
+    }
+
+
 
 }

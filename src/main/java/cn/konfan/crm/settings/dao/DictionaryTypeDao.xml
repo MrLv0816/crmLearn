@@ -3,8 +3,46 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.konfan.crm.settings.dao.DictionaryTypeDao">
-    <select id="findAllDictionaryType" resultType="cn.konfan.crm.settings.domain.DictionaryType">
+
+
+    <insert id="insert">
+        insert into tbl_dic_type (code, name, description)
+        VALUES (#{code}, #{name}, #{description})
+    </insert>
+
+
+    <update id="update">
+        update tbl_dic_type
+        set name       = #{name},
+            description=#{description}
+        where code = #{code}
+    </update>
+
+    <delete id="deleteByCode">
+        delete
+        from tbl_dic_type
+        where code in
+        <foreach collection="array" item="cds" open="(" separator="," close=")">
+            #{cds}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultType="cn.konfan.crm.settings.domain.DictionaryType">
         select *
         from tbl_dic_type;
     </select>
+
+    <select id="findCodeCount" resultType="java.lang.Integer">
+        select COUNT(*)
+        from tbl_dic_type
+        where code = #{code};
+    </select>
+
+    <select id="findByCode" resultType="cn.konfan.crm.settings.domain.DictionaryType">
+        select *
+        from tbl_dic_type
+        where code = #{code}
+    </select>
+
+
 </mapper>

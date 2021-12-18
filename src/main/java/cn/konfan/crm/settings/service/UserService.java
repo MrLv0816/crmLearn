@@ -1,7 +1,9 @@
 package cn.konfan.crm.settings.service;
 
+import cn.konfan.crm.entity.Result;
 import cn.konfan.crm.settings.domain.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,6 +15,10 @@ public interface UserService {
     @Deprecated
     User findUserByLoginActAndLoginPwd(String loginAct, String loginPwd);
 
-    Map<String, Object> findMapByLoginActAndLoginPwd(String loginAct, String loginPwd,String ip);
+    Result findMapByLoginActAndLoginPwd(String loginAct, String loginPwd, String ip);
+
+    List<User> findAll();
+
+    String findNameById(String id);
 
 }

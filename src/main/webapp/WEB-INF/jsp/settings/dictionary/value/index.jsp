@@ -12,11 +12,13 @@
 
     <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/jquery/dictionary.js"></script>
+    <script type="text/javascript" src="jquery/dictionary.js"></script>
+    <script type="text/javascript" src="jquery/ajax.js"></script>
     <script type="text/javascript">
         $(function (){
             selectAll();
             reverseAll();
+            getValueData();
         })
     </script>
 </head>
@@ -54,17 +56,7 @@
             <td>字典类型编码</td>
         </tr>
         </thead>
-        <tbody>
-        <c:forEach items="${dictionaryValueList}" var="dv" varStatus="dvs">
-            <tr class="${dvs.index %2 == 0 ? 'active': ''}">
-                <td><input type="checkbox" name="ck"/></td>
-                <td>${dv.id}</td>
-                <td>${dv.value}</td>
-                <td>${dv.text}</td>
-                <td>${dv.orderNo}</td>
-                <td>${dv.typeCode}</td>
-            </tr>
-        </c:forEach>
+        <tbody id="dataTbody">
         </tbody>
     </table>
 </div>

@@ -1,5 +1,6 @@
 package cn.konfan.crm.settings.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @ToString
 @Getter
 @Setter
+@JsonIgnoreProperties(value = {"loginAct","loginPwd","expireTime","lockState","deptno","allowIps","createTime","createBy","editTime","editBy"})
 public class User implements Serializable {
     private String id;
     private String loginAct;

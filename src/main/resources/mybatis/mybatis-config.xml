@@ -7,11 +7,24 @@
     <settings>
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
+
+
     <!--配置别名-->
     <typeAliases>
         <package name="cn.konfan.crm.settings.domain"/>
         <package name="cn.konfan.crm.workbench.domain"/>
     </typeAliases>
+
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 表示使用mysql的分页方法 -->
+            <property name="helperDialect" value="mysql"/>
+            <!-- 表示当页码长度为0 的时候,就不进行分页查询 -->
+            <property name="pageSizeZero" value="true"/>
+        </plugin>
+
+    </plugins>
 
     <!--配置sql映射文件-->
     <mappers>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.konfan.crm.workbench.dao.ActivityDao">
+
+
+    <resultMap id="activityMap" type="cn.konfan.crm.workbench.domain.Activity" autoMapping="true">
+        <id property="id" column="id"/>
+        <result property="owner" column="owner"/>
+        <association property="user" column="owner" javaType="cn.konfan.crm.settings.domain.User"
+                     select="cn.konfan.crm.settings.dao.UserDao.findById" autoMapping="true"/>
+    </resultMap>
+
+    <insert id="insert">
+        insert into tbl_activity(id, owner, name, startDate, endDate, cost, description,
+                                 createTime, createBy, editTime, editBy)
+        VALUES (#{id}, #{owner}, #{name}, #{startDate}, #{endDate}, #{cost}, #{description},
+                #{createTime}, #{createBy}, #{editTime}, #{editBy});
+    </insert>
+    <update id="update">
+        update tbl_activity
+        set owner       = #{owner},
+            name        = #{name},
+            startDate   = #{startDate},
+            endDate=#{endDate},
+            cost=#{cost},
+            description = #{description},
+            editTime=#{editTime},
+            editBy=#{editBy}
+        where id = #{id}
+
+    </update>
+    <delete id="delete">
+        delete from tbl_activity where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="activityMap">
+        select *
+        from tbl_activity
+        <where>
+            <if test="id != null and id != ''">
+                and id= #{id}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="findById" resultMap="activityMap">
+        select *
+        from tbl_activity
+        where id = #{id};
+    </select>
+    <select id="search" resultType="cn.konfan.crm.workbench.domain.Activity">
+        select *
+        from tbl_activity
+
+        <where>
+            <if test="name != null and name != ''">
+                name like "%${name}%"
+            </if>
+
+            <if test="owner != null and owner != ''">
+                and owner = "%${owner}%"
+            </if>
+
+            <if test="startDate != null and startDate != ''">
+                and startDate &gt;= #{startDate}
+            </if>
+
+            <if test="endDate != null and endDate != ''">
+                and endDate &lt;= #{endDate}
+            </if>
+
+
+        </where>
+    </select>
+</mapper>

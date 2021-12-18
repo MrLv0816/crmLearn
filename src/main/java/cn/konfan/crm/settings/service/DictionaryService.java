@@ -11,7 +11,22 @@ import java.util.List;
  * @apiNote
  */
 public interface DictionaryService {
-    public List<DictionaryType> findAllDictionaryType();
 
     public List<DictionaryValue> findAllDictionaryValue();
+
+
+    //=Type======================================================================
+
+
+    public int findTypeCodeCount(String code);
+
+    public int addDictionaryType(DictionaryType dictionary);
+
+    public int updateDictionaryType(DictionaryType dictionary);
+
+    public int deleteDictionaryTypes(String[] code);
+
+    public DictionaryType findDictionaryTypeByCode(String code);
+
+    public List<DictionaryType> findAllDictionaryType();
 }
